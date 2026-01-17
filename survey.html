@@ -95,7 +95,7 @@
 
     <div class="grid">
 
-      <!-- 第一段：先關心 -->
+      <!-- 第一段：先關心（3 題） -->
       <div class="question">
         <label>你最近最在意的，是哪一件事？</label>
         <select id="worry">
@@ -134,7 +134,7 @@
 
       <div class="hr"></div>
 
-      <!-- 第二段：保障現況（6 題：移除長照/失能，新增責任保障） -->
+      <!-- 第二段：保障現況（6 題） -->
       <div class="question">
         <label>目前是否有「住院醫療／實支實付」？</label>
         <select id="med">
@@ -193,7 +193,7 @@
 
       <div class="hr"></div>
 
-      <!-- 第三段：生活輪廓＋分流（3 題） -->
+      <!-- 第三段：生活輪廓＋分流（4 題）=> 這裡新增 payer，總共 13 題 -->
       <div class="question">
         <label>目前是否有需要你負擔主要生活費的家人？</label>
         <select id="family">
@@ -211,6 +211,18 @@
           <option value="high">3,000–6,000</option>
           <option value="vhigh">6,000 以上</option>
         </select>
+      </div>
+
+      <!-- ✅ 新增：保費誰在負擔 -->
+      <div class="question">
+        <label>目前保費主要由誰負擔？</label>
+        <select id="payer">
+          <option value="self">自己</option>
+          <option value="parents">父母</option>
+          <option value="both">共同分擔</option>
+          <option value="other">其他／不固定</option>
+        </select>
+        <div class="hint">僅用於預算與建議語氣調整。</div>
       </div>
 
       <div class="question">
@@ -265,6 +277,7 @@ function analyze(){
 
   const family = document.getElementById("family").value;
   const budget = document.getElementById("budget").value;
+  const payer = document.getElementById("payer").value;
   const health = document.getElementById("health").value;
 
   const needs = {};
@@ -337,7 +350,40 @@ function analyze(){
     html += `<div style="margin-top:12px;"><b>依你的預算區間：</b>${budgetHint[budget] || ""}</div>`;
   }
 
-  html += `<div style="margin-top:12px;" class="small">下一步（溫柔建議）：如果你願意，你可以把現有保單整理起來，我們可以幫你一起看「重複與空窗」，把方向整理得更清楚。</div>`;
+  // ✅ 統整摘要（預算 + 誰在繳）
+  const budgetText = {
+    low: "0–1,500 / 月",
+    mid: "1,500–3,000 / 月",
+    high: "3,000–6,000 / 月",
+    vhigh: "6,000 以上 / 月"
+  }[budget] || "未填";
+
+  const payerText = {
+    self: "自己負擔",
+    parents: "父母負擔",
+    both: "共同分擔",
+    other: "其他／不固定"
+  }[payer] || "未填";
+
+  html += `
+    <div style="margin-top:14px;padding:12px;border-radius:12px;background:#ffffff;border:1px solid rgba(0,0,0,.08);">
+      <div style="font-weight:900;margin-bottom:6px;">你的摘要</div>
+      <div>每月可接受預算：<b>${budgetText}</b></div>
+      <div>保費主要負擔者：<b>${payerText}</b></div>
+    </div>
+  `;
+
+  // ✅ 下一步（依付款者調語氣，避免冒犯）
+  let nextStep = `如果你願意，你可以把現有保單拍照／列清單，我可以幫你一起看「重複與空窗」，把方向整理得更清楚。`;
+  if(payer === "parents"){
+    nextStep = `如果你願意，我也可以把重點整理成一頁，讓你跟家人討論時更好懂、更好決定。`;
+  }else if(payer === "both"){
+    nextStep = `如果你願意，我也可以把重點整理成一頁，讓你們在分擔預算時更好討論、更有方向。`;
+  }else if(payer === "other"){
+    nextStep = `如果你願意，我也可以先把重點整理清楚，讓你在預算比較不固定的狀況下，仍然能有優先順序。`;
+  }
+
+  html += `<div style="margin-top:12px;" class="small"><b>下一步（溫柔建議）：</b>${nextStep}</div>`;
 
   const box = document.getElementById("result");
   box.innerHTML = html;
