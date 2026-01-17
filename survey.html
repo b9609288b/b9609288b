@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>保障健檢問卷｜小吉的保健室</title>
+  <style>
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC",sans-serif;
+      background:#f5f7fa;
+      display:flex;justify-content:center;
+      padding:40px 16px;
+      color:#111;
+    }
+    .card{
+      background:#fff;
+      width:100%;
+      max-width:680px;
+      border-radius:18px;
+      padding:26px;
+      box-shadow:0 10px 30px rgba(0,0,0,.08);
+    }
+    .top{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      margin-bottom:10px;
+    }
+    .back{
+      text-decoration:none;
+      color:#4a6cf7;
+      font-weight:800;
+      font-size:13px;
+    }
+    h1{font-size:22px;margin:0;}
+    p.sub{color:#666;font-size:14px;margin:10px 0 18px;line-height:1.65;}
+    .grid{display:grid;grid-template-columns:1fr;gap:14px;}
+    .question label{display:block;margin:0 0 6px;font-weight:700;font-size:14px;}
+    select,input{
+      width:100%;
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid #ddd;
+      font-size:14px;
+      background:#fff;
+      outline:none;
+    }
+    .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    @media (max-width: 640px){ .row2{grid-template-columns:1fr;} }
+    .hint{font-size:12px;color:#777;margin-top:6px;line-height:1.6;}
+    .hr{height:1px;background:rgba(0,0,0,.06);margin:16px 0;}
+    button{
+      width:100%;
+      padding:12px;
+      border-radius:12px;
+      border:none;
+      background:#4a6cf7;
+      color:#fff;
+      font-size:15px;
+      cursor:pointer;
+      font-weight:800;
+    }
+    button:hover{background:#3b5be0;}
+    .result{
+      margin-top:18px;
+      padding:14px;
+      background:#eef2ff;
+      border-radius:12px;
+      display:none;
+      font-size:14px;
+      line-height:1.65;
+    }
+    .tag{
+      display:inline-block;
+      padding:4px 10px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid rgba(0,0,0,.08);
+      margin:6px 6px 0 0;
+      font-size:12px;
+    }
+    .small{font-size:12px;color:#666;line-height:1.6;}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="top">
+      <a class="back" href="index.html">← 回到首頁</a>
+      <div class="small">約 1–2 分鐘完成</div>
+    </div>
+
+    <h1>保障健檢問卷</h1>
+    <p class="sub">
+      先用幾個簡單問題，陪你把保障狀況整理清楚（僅供參考）。<br>
+      你可以只看結果，不用留下聯絡方式。
+    </p>
+
+    <div class="grid">
+
+      <!-- 第一段：先關心 -->
+      <div class="question">
+        <label>你最近最在意的，是哪一件事？</label>
+        <select id="worry">
+          <option value="medical">住院或手術的花費</option>
+          <option value="cancer">癌症治療與收入中斷</option>
+          <option value="accident">意外受傷影響工作</option>
+          <option value="family">家人的生活與責任</option>
+          <option value="unsure">其實不太確定，想先看看</option>
+        </select>
+      </div>
+
+      <div class="row2">
+        <div class="question">
+          <label>目前的工作型態（大致即可）</label>
+          <select id="job">
+            <option value="office">辦公室 / 內勤</option>
+            <option value="service">服務業（門市、櫃檯、客服）</option>
+            <option value="food">餐飲業（廚房、外場、吧台）</option>
+            <option value="sales">業務 / 常外出</option>
+            <option value="labor">現場 / 勞力 / 高風險</option>
+            <option value="student">學生</option>
+            <option value="self">自營 / 自由業</option>
+          </select>
+        </div>
+
+        <div class="question">
+          <label>你的年齡區間</label>
+          <select id="age">
+            <option value="20-30">20–30 歲</option>
+            <option value="31-40">31–40 歲</option>
+            <option value="41-50">41–50 歲</option>
+            <option value="50+">50 歲以上</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="hr"></div>
+
+      <!-- 第二段：保障現況（6 題：移除長照/失能，新增責任保障） -->
+      <div class="question">
+        <label>目前是否有「住院醫療／實支實付」？</label>
+        <select id="med">
+          <option value="yes">有</option>
+          <option value="unknown">不確定</option>
+          <option value="no">沒有</option>
+        </select>
+      </div>
+
+      <div class="question">
+        <label>是否有「癌症一次金／療程型」？</label>
+        <select id="cancer">
+          <option value="yes">有</option>
+          <option value="unknown">不確定</option>
+          <option value="no">沒有</option>
+        </select>
+      </div>
+
+      <div class="question">
+        <label>是否有「重大傷病／重大疾病」？</label>
+        <select id="critical">
+          <option value="yes">有</option>
+          <option value="unknown">不確定</option>
+          <option value="no">沒有</option>
+        </select>
+      </div>
+
+      <div class="question">
+        <label>是否有「意外（醫療／住院／身故）」？</label>
+        <select id="acc">
+          <option value="yes">有</option>
+          <option value="unknown">不確定</option>
+          <option value="no">沒有</option>
+        </select>
+      </div>
+
+      <div class="question">
+        <label>是否有「責任保障（第三人責任／日常責任）」？</label>
+        <select id="liability">
+          <option value="yes">有</option>
+          <option value="unknown">不確定</option>
+          <option value="no">沒有</option>
+        </select>
+        <div class="hint">例如機車/汽車第三人、日常意外造成他人受傷或財物損失的保障。</div>
+      </div>
+
+      <div class="question">
+        <label>是否有「壽險（身故保障）」？</label>
+        <select id="life">
+          <option value="yes">有</option>
+          <option value="unknown">不確定</option>
+          <option value="no">沒有</option>
+        </select>
+        <div class="hint">若你有家庭責任（主要生活費由你負擔），壽險通常會更重要。</div>
+      </div>
+
+      <div class="hr"></div>
+
+      <!-- 第三段：生活輪廓＋分流（3 題） -->
+      <div class="question">
+        <label>目前是否有需要你負擔主要生活費的家人？</label>
+        <select id="family">
+          <option value="yes">有</option>
+          <option value="no">沒有</option>
+          <option value="partial">偶爾／部分負擔</option>
+        </select>
+      </div>
+
+      <div class="question">
+        <label>每月可接受保費預算（大概即可）</label>
+        <select id="budget">
+          <option value="low">0–1,500</option>
+          <option value="mid">1,500–3,000</option>
+          <option value="high">3,000–6,000</option>
+          <option value="vhigh">6,000 以上</option>
+        </select>
+      </div>
+
+      <div class="question">
+        <label>是否有定期健檢／慢性病史（僅做初步分流）？</label>
+        <select id="health">
+          <option value="good">有定期健檢，整體狀況穩定</option>
+          <option value="maybe">偶爾不適／有小狀況</option>
+          <option value="risk">有慢性病史／需要長期追蹤</option>
+          <option value="unsure">我不太確定</option>
+        </select>
+      </div>
+
+      <div class="hr"></div>
+
+      <button onclick="analyze()">查看初步建議</button>
+      <div class="small" style="margin-top:10px;">
+        提醒：本結果為一般性建議，實際仍需依保單內容、額度與健康狀況評估。
+      </div>
+
+      <div class="result" id="result"></div>
+    </div>
+  </div>
+
+<script>
+function addNeed(needs, key, reason){
+  if(!needs[key]) needs[key] = [];
+  needs[key].push(reason);
+}
+
+function openingText(worry){
+  const map = {
+    medical: `我先陪你把「住院或手術費用」這件事整理清楚。<br>我們先看看醫療保障有沒有空窗，再慢慢決定要不要補、怎麼補。`,
+    cancer: `我先接住你在意的「癌症治療與收入中斷」。<br>我們先看看一次金／療程型保障是否足夠，再慢慢把優先順序排出來。`,
+    accident: `我先抓住你最在意的「意外受傷會不會影響工作」。<br>我們先看看意外醫療與相關保障是否完整，再慢慢想下一步。`,
+    family: `你在意的是「家人的生活與責任」，我懂。<br>我們先把需要被照顧的地方整理出來，讓你心裡有底，再慢慢做選擇。`,
+    unsure: `沒關係，你願意先看看就很好了。<br>我會用你剛剛的回答，幫你把保障的重點整理成一個清楚的方向。`
+  };
+  return map[worry] || map.unsure;
+}
+
+function analyze(){
+  const worry = document.getElementById("worry").value;
+  const job = document.getElementById("job").value;
+  const age = document.getElementById("age").value;
+
+  const med = document.getElementById("med").value;
+  const cancer = document.getElementById("cancer").value;
+  const critical = document.getElementById("critical").value;
+  const acc = document.getElementById("acc").value;
+  const liability = document.getElementById("liability").value;
+  const life = document.getElementById("life").value;
+
+  const family = document.getElementById("family").value;
+  const budget = document.getElementById("budget").value;
+  const health = document.getElementById("health").value;
+
+  const needs = {};
+
+  // 基本缺口
+  if(med !== "yes") addNeed(needs, "醫療（住院／手術／實支）", "你目前「沒有／不確定」醫療保障，住院與手術自費項目可能造成壓力。");
+  if(cancer !== "yes") addNeed(needs, "癌症（一次金／療程）", "你目前「沒有／不確定」癌症保障，治療費與收入中斷風險較高。");
+  if(critical !== "yes") addNeed(needs, "重大傷病／重大疾病", "你目前「沒有／不確定」重大類保障，長期治療或復健可能造成財務壓力。");
+  if(acc !== "yes") addNeed(needs, "意外（醫療／住院）", "你目前「沒有／不確定」意外保障，突發意外可能影響生活與工作。");
+  if(liability !== "yes") addNeed(needs, "責任保障（第三人／日常）", "你目前「沒有／不確定」責任保障，日常意外造成他人受傷或財物損失時可能會有賠償壓力。");
+
+  // 家庭責任（含部分負擔）
+  if((family === "yes" || family === "partial") && life !== "yes"){
+    addNeed(needs, "壽險（家庭責任保障）", "你有（部分）家庭主要支出責任，但「沒有／不確定」壽險，建議先做責任額度評估。");
+  }
+
+  // 職業風險加權（餐飲也納入）
+  if(job === "labor" || job === "sales" || job === "food"){
+    addNeed(needs, "意外（醫療／住院）", "你的工作型態較可能面臨外出或現場風險（餐飲也常有燙傷、割傷、滑倒等風險），意外保障通常更重要。");
+  }
+
+  // 健康分流
+  if(health === "risk"){
+    addNeed(needs, "醫療（住院／手術／實支）", "你提到有慢性病史／需要追蹤，建議優先檢視現有保障與可承保方案。");
+  }
+
+  // 依最在意事項排序
+  const priorityMap = {
+    medical: ["醫療（住院／手術／實支）"],
+    cancer: ["癌症（一次金／療程）","醫療（住院／手術／實支）"],
+    accident: ["意外（醫療／住院）"],
+    family: ["壽險（家庭責任保障）","醫療（住院／手術／實支）"],
+    unsure: []
+  };
+  const priority = priorityMap[worry] || [];
+
+  const keys = Object.keys(needs);
+
+  let html = `<div style="font-weight:900;margin-bottom:8px;">📌 初步分析結果</div>`;
+  html += `<div style="margin-bottom:12px;">${openingText(worry)}</div>`;
+
+  if(keys.length === 0){
+    html += `看起來你勾選的項目多數「已具備」。下一步建議你檢視：<b>額度是否足夠、保障是否完整、是否有重複或空窗</b>。`;
+  }else{
+    keys.sort((a,b)=>{
+      const pa = priority.includes(a) ? 0 : 1;
+      const pb = priority.includes(b) ? 0 : 1;
+      return pa - pb;
+    });
+
+    html += `<div style="margin-bottom:10px;">你可能需要優先留意：</div>`;
+    html += `<div>`;
+    keys.slice(0,6).forEach(k => { html += `<span class="tag">⭐ ${k}</span>`; });
+    html += `</div>`;
+
+    html += `<div style="margin:12px 0 8px;font-weight:900;">建議原因（摘要）</div>`;
+    html += `<ul style="margin:0;padding-left:18px;">`;
+    keys.slice(0,6).forEach(k=>{
+      const reason = needs[k][0];
+      html += `<li style="margin:6px 0;"><b>${k}</b>：${reason}</li>`;
+    });
+    html += `</ul>`;
+
+    const budgetHint = {
+      low: "可先以「核心保障」為主：醫療＋意外，必要時再補癌症／重大與責任保障。",
+      mid: "可規劃「核心保障＋一次金」：醫療＋意外＋癌症／重大，並把責任與家庭責任一起顧到。",
+      high: "可做更完整配置：醫療＋意外＋癌症＋重大＋責任保障，若有家庭責任再搭配壽險。",
+      vhigh: "預算較充足，可把「額度拉足」並把醫療、重大、癌症、責任與家庭責任做完整配置。"
+    };
+    html += `<div style="margin-top:12px;"><b>依你的預算區間：</b>${budgetHint[budget] || ""}</div>`;
+  }
+
+  html += `<div style="margin-top:12px;" class="small">下一步（溫柔建議）：如果你願意，你可以把現有保單整理起來，我們可以幫你一起看「重複與空窗」，把方向整理得更清楚。</div>`;
+
+  const box = document.getElementById("result");
+  box.innerHTML = html;
+  box.style.display = "block";
+  box.scrollIntoView({behavior:"smooth", block:"start"});
+}
+</script>
+</body>
+</html>
