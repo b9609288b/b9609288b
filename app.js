@@ -469,8 +469,8 @@ function summarize(){
   else lines.push(priority.join("\n"));
   lines.push("");
 
-  lines.push("【回傳建議】");
-  lines.push("・可直接截圖此分析結果，回傳給小吉做更完整分析");
+  lines.push("【填寫完畢後】");
+  lines.push("・你可以直接截圖此分析結果，回傳給小吉做更完整分析。如果你比較懶惰可用下方的表格直接傳到小吉的信箱");
 
   return lines.join("\n");
 }
@@ -568,7 +568,7 @@ function init(){
         payload
       );
 
-      setToast(payload.screenshot_base64 ? "已送出（含截圖節錄）✅" : "已送出（文字結果）✅");
+      setToast(payload.screenshot_base64 ? "已送出囉✅" : "已送出（文字結果）✅");
     } catch (e) {
       console.error("EmailJS error:", e);
       const msg = (e?.text) || (e?.message) || (e?.status ? `status ${e.status}` : "") || "unknown";
