@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>保障健檢｜問卷</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="toast" id="toast">已複製</div>
+
+  <div class="container">
+    <div class="header">
+      <div class="brand">
+        <div class="title">吉時的保單健檢</div>
+        <div class="sub"></div>
+      </div>
+      <a class="badge" href="./index.html">回首頁</a>
+    </div>
+
+    <div class="progressWrap card">
+      <div class="progressTop">
+        <div><b id="stepLabel">Step 1 / 3</b>　<span id="stepName">基本狀況</span></div>
+        <div><span id="qCount">0</span>/13</div>
+      </div>
+      <div class="progressBar"><div id="progressFill"></div></div>
+    </div>
+
+    <div id="questions"></div>
+
+    <section class="card result" id="resultCard" style="display:none;">
+      <div class="qTitle">初步建議（可截圖 / 可複製）</div>
+      <small>這是初步分流結果：協助你先判斷「缺口」與「優先順序」。</small>
+      <pre id="resultText"></pre>
+
+      <!-- Email form -->
+      <div class="card" style="margin-top:12px;padding:14px;border-radius:20px;border:1px solid rgba(17,24,39,.10);background:rgba(17,24,39,.02);">
+        <div class="qTitle" style="margin:0 0 8px;">把結果寄給小吉（含截圖）</div>
+
+        <div style="display:grid;gap:10px;">
+          <label style="display:grid;gap:6px;">
+            <small>姓名（必填）</small>
+            <input id="userName" placeholder="王小明"
+              style="padding:12px;border-radius:14px;border:1px solid rgba(17,24,39,.10);background:#fff;" />
+          </label>
+
+          <label style="display:grid;gap:6px;">
+            <small>Gmail（選填：你也想收到一份）</small>
+            <input id="userEmail" placeholder="example@gmail.com"
+              style="padding:12px;border-radius:14px;border:1px solid rgba(17,24,39,.10);background:#fff;" />
+          </label>
+
+          <button class="btn primary" id="sendEmailBtn" type="button">一鍵寄出（含截圖）</button>
+          <small>送出即表示同意將此頁結果提供給小吉進行保障分析。</small>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-top:12px;">
+        <button class="btn" id="copyBtn" type="button">複製文字</button>
+        <button class="btn ghost" id="resetBtn" type="button">清除重填</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="stickyCta">
+    <div class="stickyInner">
+      <button class="btn ghost" id="prevBtn" type="button">上一段</button>
+      <button class="btn primary" id="nextBtn" type="button" style="flex:1;">下一段</button>
+    </div>
+  </div>
+
+  <!-- CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <script src="./app.js"></script>
+</body>
+</html>
